@@ -9,10 +9,12 @@ class Calculadora extends React.Component{
         super(props)
 
         this.state = {
-
+            
             displayValue: '0',
+            operacao: null,
+            displayOperacao: null,
             botoesDisplay: [
-                '7','8','9','%',
+                '7','8','9','/',
                 '4','5','6','*',
                 '1','2','3','-',
                 '.','0','=','+',
@@ -21,61 +23,164 @@ class Calculadora extends React.Component{
                 'DEL','AC'
             ],
             botoesAction:{
-                '=': () => this.calculaFromDisplay(),
                 'DEL': () =>this.apagaDisplay(),
-                'AC': () => this.limpaDisplay()
+                'AC': () => this.limpaDisplay(),
+                '=': () => this.actionOperacao('='),
+                '/': () => this.actionOperacao('/'),
+                '*': () => this.actionOperacao('*'),
+                '-': () => this.actionOperacao('-'),
+                '+': () => this.actionOperacao('+'),
+            },
+            operacoes:{
+                '/': (n1,n2) => n1/n2,
+                '*': (n1,n2) => n1*n2,
+                '-': (n1,n2) => n1-n2,
+                '+': (n1,n2) => n1+n2,
             },
             botoesRestricoes:{
-                '.': () =>
+                '.': () => {
+                    
+                    return !this.state.displayValue.includes('.')
+                }
             }
 
         }
+    }
+
+
+    actionOperacao(op)
+    {
+        if(!this.isDisplayEmpty())
+        {
+            if(this.isOperacaoEmpty() && op !== '=')
+            {
+                
+                
+                    this.setOperacao( this.state.displayValue ,op)
+                    this.setDisplayValue('0');
+            
+                
+            }
+            else if(!this.isOperacaoEmpty())
+            {
+               let resultado = this.executaCalculo({
+                   n1: this.state.displayValue,
+                   n2: this.state.operacao.value,
+                   op: this.state.operacao.op
+               })
+
+               if(op === '=')
+               {
+                   this.limpaDisplay()
+                   this.setDisplayValue(resultado)
+               }
+               else
+               {
+                this.setOperacao(resultado,op)
+                this.setDisplayValue('0')
+               }
+            }
+        }
+    }
+
+
+    setOperacao(value,op)
+    {
+        
+        this.setState({
+            operacao: {
+                value: value,
+                op : op
+            },
+            displayOperacao: value + " " + op
+        });
+       
+    }
+
+    executaCalculo(param)
+    {
+        let n1 = parseFloat(param.n1)
+        let n2 = parseFloat(param.n2)
+
+        return this.state.operacoes[param.op](n1,n2).toString().slice(0,VALOR_MAXIMO)
+
+    }
+
+    
+
+    setDisplayValue(value)
+    {
+        this.setState({
+            displayValue: value
+        });
+    }
+
+    isOperacaoEmpty()
+    {
+        return this.state.operacao === null
+    }
+    
+    isDisplayEmpty()
+    {
+        return this.state.displayValue === '0' 
     }
     
 
     apagaDisplay()
     {
-        let novoDisplayValue = '0';
+        let novodisplayValue = '0';
         if(this.state.displayValue !== '0')
         {        
             if(this.state.displayValue.length > 1)
             {
-                novoDisplayValue = this.state.displayValue.slice(0,-1);
+                novodisplayValue = this.state.displayValue.slice(0,-1);
             }
             
 
-            this.setState({
-                displayValue: novoDisplayValue
-            })
+            this.setDisplayValue(novodisplayValue)
         }
     }
 
     limpaDisplay()
     {
         this.setState({
-            displayValue: '0'
+            displayValue: '0',
+            operacao: null,
+            displayOperacao: ''
         })
     }
 
-    calculaFromDisplay()
-    {
-        let operacao = this.state.displayValue;
-        console.log(operacao);
-        
-    }
-
+   
     validaValorMaximo()
     {
         return this.state.displayValue.length + 1 < VALOR_MAXIMO
     }
 
+    validaRestricao(value)
+    {
+        let valido  = false;
+
+        if(this.state.botoesRestricoes[value] === undefined)
+        {
+            valido = true;
+        }
+        else{
+            valido = this.state.botoesRestricoes[value]()
+        }
+        return valido
+    }
+
     addToDisplay(value)
     {
-        let novoValor = this.state.displayValue !== '0' ? this.state.displayValue + value : value;
+        let novoValor
+        if(this.validaRestricao(value))
+        {
+            novoValor = !this.isDisplayEmpty() || value === '.'  ? this.state.displayValue + value : value;
+            this.setDisplayValue(novoValor)
+        }
+        
 
-        this.setState({ 
-            displayValue: novoValor
-        })
+        
     }
 
     actionBotao(value){
@@ -97,7 +202,7 @@ class Calculadora extends React.Component{
      render(){
         return(
             <div className="calculadora">
-                <Display value={this.state.displayValue} />
+                <Display operacao={this.state.displayOperacao} value={this.state.displayValue}  />
                 <div className="botoes especial">
                     {
                         this.state.botoesEspeciais.map((item) => {

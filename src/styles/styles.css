@@ -2,26 +2,46 @@
 body{
     width: 100%;
     height: 100%;
-    background-color: #a1a1a1;
+    background-color: #fff;
 }
 
 .calculadora{
     padding: 20px;
     width: 400px;
     margin: 0 auto;
-    background-color: #fff;
+    background-color: #f1f1f1;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%,-50%);
+    border-radius: 15px;
+    box-shadow:  5px 7px 10px 3px rgba(4, 4, 4,0.2);
 }
 
 .display{
     padding: 10px 20px;
     background-color: #bbbbbb;
     text-align: right;
+    position: relative;
+    height: 120px;
+    box-shadow:inset  2px 2px 5px 2px rgba(4, 4, 4,0.2);
+}
+
+.display::before{
+    content: "";
+    width: 100%;
+    height: 100%;
+    top: 0px;
+    left: 0px;
+    position: absolute;
+    background: linear-gradient(140deg, rgba(255, 255, 255,0.4) 5%, rgba(68, 68, 68,0.2) 30%);
+}
+.display .operacao{
+    font-size: 20px;
+    min-height: 20px ;
+}
+.display .valor{
     font-size: 50px;
-    height: 80px;
 }
 
 
@@ -30,21 +50,31 @@ body{
     display: flex;
     width: 100%;
     flex-wrap: wrap;
+    
 }
 
 
 .botoes .btnAction{
-    width: 25%;
-    height: 100px;
+    margin: 0px 2.5%;
+    margin-bottom: 10px;
+    width: 20%;
+    height: 70px;
     font-size: 25px;
+    border-radius: 50%;
+    background-color: #f1f1f1;
+    box-shadow:  -2px -2px 5px 2px #fff, 2px 2px 5px 2px rgba(4, 4, 4,0.2);
+}
+
+.botoes .btnAction:active{
+    box-shadow: inset  -2px -2px 5px 2px rgba(255, 255, 255,1), inset  2px 2px 5px 2px rgba(4, 4, 4,0.2);
 }
 .botoes.especial{
+  
    float: right;
-   width: 50%;
+   width: 100%;
 }
 .botoes.especial .btnAction{
-  
-    width: 50%;
+   
     height: 40px;
-    font-size: 25px;
+    font-size: 20px;
 }
