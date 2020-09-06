@@ -17,7 +17,7 @@ class Calculadora extends React.Component{
                 '7','8','9','/',
                 '4','5','6','*',
                 '1','2','3','-',
-                '.','0','=','+',
+                '0','.','=','+',
             ],
             botoesEspeciais: [
                 'DEL','AC'
@@ -55,13 +55,15 @@ class Calculadora extends React.Component{
             if(this.isOperacaoEmpty() && op !== '=')
             {
                 
-                
+                if(parseFloat(this.state.displayValue) !== 0)
+                {
+               
                     this.setOperacao( this.state.displayValue ,op)
                     this.setDisplayValue('0');
-            
+                }
                 
             }
-            else if(!this.isOperacaoEmpty())
+            else if(!this.isOperacaoEmpty() && parseFloat(this.state.displayValue) !== 0)
             {
                let resultado = this.executaCalculo({
                    n1: this.state.operacao.value,
