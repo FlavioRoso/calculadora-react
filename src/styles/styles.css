@@ -20,6 +20,7 @@ body{
     border: 1px solid #e0dfdf;
 }
 
+
 .display{
     padding: 10px 20px;
     background-color: #bbbbbb;
@@ -64,8 +65,8 @@ body{
     height: 70px;
     font-size: 25px;
     border-radius: 50%;
-    color: rgb(100, 100, 100);
-    background-color: #f1f1f1;
+    color: rgb(100, 100, 100);  
+    background: radial-gradient(#ebeaea 10%,#f1f1f1  70%);
     box-shadow:  -2px -2px 5px 2px #fff, 2px 2px 5px 2px rgba(4, 4, 4,0.2);
 }
 
