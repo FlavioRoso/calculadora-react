@@ -2,7 +2,7 @@
 body{
     width: 100%;
     height: 100%;
-    background: ;
+
     background: linear-gradient(140deg, rgb(172, 243, 238), rgb(213, 146, 233));
 }
 
@@ -27,6 +27,7 @@ body{
     position: relative;
     height: 120px;
     box-shadow:inset  2px 2px 5px 2px rgba(4, 4, 4,0.2);
+    font-family: 'clock-font';
 }
 
 .display::before{
@@ -40,7 +41,7 @@ body{
 }
 .display .operacao{
     font-size: 20px;
-    min-height: 20px ;
+    min-height: 25px ;
 }
 .display .valor{
     font-size: 50px;
