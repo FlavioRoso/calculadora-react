@@ -64,8 +64,8 @@ class Calculadora extends React.Component{
             else if(!this.isOperacaoEmpty())
             {
                let resultado = this.executaCalculo({
-                   n1: this.state.displayValue,
-                   n2: this.state.operacao.value,
+                   n1: this.state.operacao.value,
+                   n2: this.state.displayValue,
                    op: this.state.operacao.op
                })
 
