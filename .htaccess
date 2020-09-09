@@ -1,0 +1,11 @@
+<IfModule mod_rewrite.c>
+
+    RewriteEngine On
+    RewriteBase /
+
+    RewriteCond %{THE_REQUEST} /build/([^\s?]*) [NC]
+    RewriteRule ^ %1 [L,NE,R=302]
+    RewriteRule ^((?!build/).*)$ build/$1 [L,NC]
+
+
+</IfModule>
